@@ -1,0 +1,28 @@
+.nav_button{
+  background-color: var(--button-color);
+  transition-duration: 0.5s;
+}
+.nav_button_panel{
+  background-color: var(--accent-color);
+}
+
+.nav_button:hover{
+  transform:scale(1.1);
+}
+.title-sub{
+  background-color: var(--button-color);
+}
+body {
+  background-color: var(--bg-color);
+}
+.card {
+  background-color: var(--accent-color);
+  height:20rem;
+}
+.card_button{
+  background-color: var(--button-color);
+  transition-duration: 0.5s;
+}
+.card_button:hover{
+  transform:scale(1.05);
+}

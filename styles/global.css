@@ -1,0 +1,8 @@
+@import url('styles/main.css');
+:root{
+    --bg-color:#ffebcb;
+    --accent-color:#F1C27B;
+    --button-color:#85A389;
+    --button-selected:#A2CDB0;
+    --tw-ring-color:var(--bg-color);
+}
