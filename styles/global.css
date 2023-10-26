@@ -1,8 +1,12 @@
-@import url('styles/main.css');
+@import url('main.css');
 :root{
-    --bg-color:#ffebcb;
-    --accent-color:#F1C27B;
-    --button-color:#85A389;
-    --button-selected:#A2CDB0;
-    --tw-ring-color:var(--bg-color);
+    --bg-color:#FDF6F0;
+    --accent-color:#F8E2CF;
+    --accent-color-second: #eae0d9;
+    --button-color:#F5C6AA;
+    --button-selected:#daaf97;
+
+}
+body{
+    font-size:16px;
 }

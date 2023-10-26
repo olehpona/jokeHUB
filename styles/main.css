@@ -1,29 +1,87 @@
-.nav_button{
+.nav__button{
   background-color: var(--button-color);
   transition-duration: 0.5s;
+  --tw-ring-color:var(--bg-color) !important;
 }
-.nav_button_panel{
+.nav__button__panel{
   background-color: var(--accent-color);
 }
 
-.nav_button:hover{
+body,html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__button:hover{
   transform:scale(1.1);
 }
 
-.title-sub{
-  background-color: var(--button-color);
+.header__title-sub{
+  background-color: var(--accent-color-second);
+  color: #3c3c3c;
 }
 body {
   background-color: var(--bg-color);
 }
-.card {
+.main__card {
   background-color: var(--accent-color);
+}
+.main__card__body{
   height:20rem;
 }
-.card_button{
+.chuck__card{
+  background-color: var(--accent-color);
+}
+.main__card__button{
   background-color: var(--button-color);
   transition-duration: 0.5s;
 }
-.card_button:hover{
+.nav__button.selected{
+  transform:scale(1.1);
+  background-color: var(--button-selected);
+}
+
+.main__card__button:hover{
   transform:scale(1.05);
+}
+.main__cards{
+  background-color: var(--accent-color-second);
+}
+.modal__inner{
+  background-color: var(--accent-color);
+  min-height: 20rem;
+  max-height: 80%;
+}
+.modal{
+  background-color: rgba(0, 0, 0, 0.34);
+  display: none;
+}
+.modal__input{
+  background-color: var(--bg-color);
+  text-align: center;
+}
+.modal__input::placeholder{
+  color:black;
+}
+.modal__inner__footer__button{
+  background-color: var(--button-color);
+  transition-duration: 0.5s;
+}
+.modal__inner__footer__button:hover{
+  transform:scale(1.05);
+}
+rect.btn__svg {
+  stroke:#fff;
+  fill:#fff;
+  fill-opacity:0;
+  stroke-opacity:0;
+}
+.main__card__more{
+  display:none;
+  background-color: var(--accent-color);
+}
+.main__card__more.open{
+  display:flex;
 }
