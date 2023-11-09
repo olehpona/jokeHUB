@@ -1,4 +1,4 @@
-@import url('main.css');
+@import url('./main.css');
 :root{
     --bg-color:#FDF6F0;
     --accent-color:#F8E2CF;

@@ -1,26 +1,30 @@
-import "../styles/global.css"
 import axios from "axios";
 
-
-export default class ChuckNorisJokes{
+export class ChuckNorisJokes {
     #categories;
+
     constructor(callback) {
-        this.#_getCategories().then(value => {this.#categories=value.data;callback()});
+        this.#_getCategories().then(value => {
+            this.#categories = value.data;
+            callback()
+        });
         this.text = '';
         this.categorie = 'all'
     }
-    #_getCategories(){
+
+    #_getCategories() {
         return axios({
             method: "GET",
             url: "https://api.chucknorris.io/jokes/categories"
         });
     }
-    get categories(){
+
+    get categories() {
         return this.#categories;
     }
 
-    async randomJoke(){
-        if (this.categorie === 'all'){
+    async randomJoke() {
+        if (this.categorie === 'all') {
             return axios({
                 method: "GET",
                 url: "https://api.chucknorris.io/jokes/random"
@@ -34,14 +38,14 @@ export default class ChuckNorisJokes{
 
     }
 
-    async searchedJoke(){
-        if (this.text !== ''){
+    async searchedJoke() {
+        if (this.text !== '') {
             return axios({
                 method: "GET",
                 url: `https://api.chucknorris.io/jokes/search?query=${this.text}`
             });
         } else {
-            return {status:"bad"}
+            return {status: "bad"}
         }
 
     }

@@ -1,9 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["*{html,js}","scripts/*{html,js}"],
+  content: ["index.html"],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    'postcss-import',
+  ],
 }
 
