@@ -10,7 +10,7 @@ let jokeSort = "none";
 
 
 if (localStorage.getItem("token")){
-    await logIn("","",function(e){localStorage.removeItem("token")},async function (){await getLikes(); await renderCard();})
+    logIn("","",function(){localStorage.removeItem("token")},async function (){await getLikes(); await renderCard();})
 } else {
     document.getElementById("login_modal").style.display = "block";
     document.getElementById("login_modal_login").addEventListener("click",(e) => {
@@ -302,7 +302,8 @@ async function renderCard(ids = jokeIndexes) {
             detailModal.style.animation = "fadeIn 0.3s"
         });
         card.querySelector(".main__card__more__delete").addEventListener("click", (e) => {
-            console.log(removeJoke(i.id));
+            removeJoke(i.id);
+            removeLike(i.id);
             renderCard();
         });
         console.log(liked);

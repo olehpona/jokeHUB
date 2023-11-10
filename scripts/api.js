@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiGateway = "http://localhost:3000/"
+const apiGateway = ""
 
 export async function addJoke(data) {
     return axios.post(apiGateway + 'api/add', data,{
@@ -37,7 +37,6 @@ export async function updateJoke(id, data) {
 
 export async function signUp(login, password, callBackError, callBackSuccess) {
     const res = await axios.post(apiGateway + 'user/create', {email: login, password: password})
-    console.log(res)
     if (res.data.status === "OK") {
         localStorage.setItem("token", res.data.token)
         callBackSuccess();
