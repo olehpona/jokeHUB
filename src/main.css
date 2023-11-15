@@ -69,7 +69,6 @@ body {
 }
 .modal{
   background-color: rgba(0, 0, 0, 0.34);
-  display: none;
 }
 .modal__input{
   background-color: var(--bg-color);
@@ -98,17 +97,19 @@ rect.btn__svg {
 .main__card__more.open{
   display:flex;
 }
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
+
 @keyframes fadeOut {
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
-.detail_edit.hide{
-  display:none;
+@keyframes grow {
+  from{
+    height: 3rem;
+  }
+  to{
+    height: 100%;
+  }
 }
-.detail_edit.show{
-  display:flex;
-}
+
+
+

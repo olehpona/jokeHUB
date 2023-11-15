@@ -1,88 +1,161 @@
 import "../styles/global.css"
 import {ChuckNorisJokes} from "./classes.js"
-import {addJoke, getJoke, removeJoke, updateJoke, signUp, logIn, removeLike, getLikes, addLike, updateLikes} from "./api.js";
+import {
+    addJoke,
+    getJoke,
+    removeJoke,
+    updateJoke,
+    signUp,
+    logIn,
+    removeLike,
+    getLikes,
+    addLike,
+    updateLikes
+} from "./api.js";
 
-const chuck = new ChuckNorisJokes(addEvents);
+const chuck = new ChuckNorisJokes("chuck__joke__body",addEvents);
 let jokeType = "all"
 let jokeIndexes = "all"
 let jokeSort = "none";
 
 
+// Animation
+const fadeIn = {
+    opacity: [0,1]
+}
+const fadeOut = {
+    opacity: [1,0]
+}
+const grow = {
+    height: ["3rem", "100%"]
+}
+const shrink = {
+    height: ["100%", "3rem"]
+}
 
-if (localStorage.getItem("token")){
-    logIn("","",function(){localStorage.removeItem("token")},async function (){await getLikes(); await renderCard();})
+
+
+
+if (localStorage.getItem("token")) {
+    logIn("", "", function () {
+        localStorage.removeItem("token")
+    }, async function (data) {
+        localStorage.setItem("token", data.token)
+        await getLikes();
+        await renderCard();
+    })
 } else {
     document.getElementById("login_modal").style.display = "block";
-    document.getElementById("login_modal_login").addEventListener("click",(e) => {
-        logIn(document.getElementById("modal__login_login").value, document.getElementById("modal__login_password").value, function (e) {
-            document.getElementById("modal__login__error").classList.remove("hidden");
-            document.getElementById("modal__login__error").innerText = e;
-        }, async function(){
-            document.getElementById("modal__login__error").classList.add("hidden");
-            document.getElementById("login_modal").style.display = "none";
-            await getLikes()
-            renderCard()
+    document.getElementById("login_modal_login").addEventListener("click", (e) => {
+        logIn(document.getElementById("modal__login_login").value,
+            document.getElementById("modal__login_password").value,
+            (e) => {
+                localStorage.removeItem("token");
+                document.getElementById("modal__login__error").classList.remove("hidden");
+                document.getElementById("modal__login__error").innerText = e;
+            },
+            async (data) => {
+                localStorage.setItem("token", data.token)
+                document.getElementById("modal__login__error").classList.add("hidden");
+                document.getElementById("login_modal").style.display = "none";
+                await getLikes()
+                renderCard()
         });
     })
-    document.getElementById("login_modal_signup").addEventListener("click", (e)=>{
-        signUp(document.getElementById("modal__login_login").value, document.getElementById("modal__login_password").value, function(e){
-            document.getElementById("modal__login__error").classList.remove("hidden");
-            document.getElementById("modal__login__error").innerText = e;
-        }, async function(){
-            document.getElementById("modal__login__error").classList.add("hidden");
-            document.getElementById("login_modal").style.display = "none";
-            await getLikes()
-            renderCard()
+    document.getElementById("login_modal_signup").addEventListener("click", (e) => {
+        signUp(document.getElementById("modal__login_login").value,
+            document.getElementById("modal__login_password").value,
+            (e) => {
+                localStorage.removeItem("token");
+                document.getElementById("modal__login__error").classList.remove("hidden");
+                document.getElementById("modal__login__error").innerText = e;
+            },
+            async (data) => {
+                localStorage.setItem("token", data.token)
+                document.getElementById("modal__login__error").classList.add("hidden");
+                document.getElementById("login_modal").style.display = "none";
+                await getLikes()
+                renderCard()
         })
     })
 }
 
-
-
-function prepareChuckJokeTypes() {
-    let element = document.getElementById('chuck__joke_type');
-    for (let i of chuck.categories) {
-        element.innerHTML += `<option value="${i}">${i}</option>`
+function addEvents() {
+    const jokeTabOpenBtn = document.getElementById("joke_open");
+    const jokeTabBody = document.getElementById("joke_body");
+    const chuckTabOpenBtn = document.getElementById("chuckNoris_open");
+    const chuckTabBody = document.getElementById("chuck_body");
+    const chuckTabOpen = () => {
+        chuckTabOpenBtn.classList.add("open");
+        chuckTabOpenBtn.parentElement.animate(grow,{duration:500});
+        jokeTabOpenBtn.classList.remove("open");
+        chuckTabBody.classList.remove("hidden");
+        jokeTabBody.parentElement.animate(shrink, {duration:500});
+        Promise.all(jokeTabOpenBtn.parentElement.getAnimations().map((animation) => animation.finished)).then(
+            () => {
+                jokeTabBody.classList.add("hidden");
+                jokeTabOpenBtn.parentElement.classList.remove("h-full");
+                jokeTabOpenBtn.parentElement.classList.add("h-fit");
+            },
+        );
+        Promise.all(chuckTabOpenBtn.parentElement.getAnimations().map((animation) => animation.finished)).then(
+            () => {
+                chuckTabOpenBtn.parentElement.classList.remove("h-fit");
+                chuckTabOpenBtn.parentElement.classList.add("h-full");
+            },
+        );
+        jokeTabBody.parentElement.classList.remove("h-full");
+        jokeTabBody.parentElement.classList.add("h-fit");
     }
-}
-
-async function renderJoke(type, joke) {
-    const res = await joke;
-    const element = document.getElementById("chuck__joke__body");
-    if (res.status === 200) {
-        if (type === "one") {
-            element.innerHTML = `<div class="w-full chuck__card p-4 h-fit rounded-lg m-3">
-                <div class="h-fit">
-                    <p>${res.data.value}</p>
-                </div>
-            </div>`
-        } else {
-            element.innerHTML = "";
-            for (let i of res.data.result.flat()) {
-                element.innerHTML += `<div class="w-full chuck__card p-4 h-fit rounded-lg m-3">
-                    <div class="h-fit">
-                        <p>${i.value}</p>
-                    </div>
-                </div>`
+    const jokeTabOpen = () => {
+        jokeTabOpenBtn.classList.add("open");
+        jokeTabOpenBtn.parentElement.animate(grow,{duration:500});
+        chuckTabOpenBtn.classList.remove("open");
+        jokeTabBody.classList.remove("hidden");
+        chuckTabOpenBtn.parentElement.animate(shrink,{duration:500});
+        Promise.all(chuckTabOpenBtn.parentElement.getAnimations().map((animation) => animation.finished)).then(
+            () => {
+                chuckTabBody.classList.add("hidden");
+                chuckTabOpenBtn.parentElement.classList.remove("h-full");
+                chuckTabOpenBtn.parentElement.classList.add("h-fit");
+            },
+        );
+        Promise.all(jokeTabOpenBtn.parentElement.getAnimations().map((animation) => animation.finished)).then(
+            () => {
+                jokeTabOpenBtn.parentElement.classList.remove("h-fit");
+                jokeTabOpenBtn.parentElement.classList.add("h-full");
+            },
+        );
+        chuckTabBody.parentElement.classList.remove("h-full");
+        chuckTabBody.parentElement.classList.add("h-fit");
+    }
+    chuckTabOpenBtn.addEventListener("click", (e) => {
+        if (chuckTabBody.parentElement.getAnimations().length === 0) {
+            console.log(chuckTabBody.getAnimations())
+            if (e.target.classList.contains("open")) {
+                jokeTabOpen();
+            } else {
+                chuckTabOpen();
             }
         }
-    } else {
-        element.innerHTML = "<div class=\"w-full chuck__card p-4 h-fit rounded-lg m-3\">" +
-            "<div class=\"h-fit\">" +
-            "<p>Error</p>" +
-            "</div></div>"
-    }
+    })
+    jokeTabOpenBtn.addEventListener("click", (e) => {
+        if (chuckTabBody.parentElement.getAnimations().length === 0) {
+            if (e.target.classList.contains("open")) {
+                chuckTabOpen();
+            } else {
+                jokeTabOpen();
+            }
+        }
 
-}
-
-function addEvents() {
-    prepareChuckJokeTypes();
-    document.getElementById('chuck__joke_type').addEventListener("change", (event) => {
-        chuck.categorie = event.target.value;
     });
-    document.getElementById('chuck__joke_get_random').addEventListener("click", (event) => renderJoke("one", chuck.randomJoke()));
+    chuck.prepareChuckJokeTypes('chuck__joke_type');
+    document.getElementById('chuck__joke_type').addEventListener("change", (event) => {
+        chuck.category = event.target.value;
+    });
+    document.getElementById('chuck__joke_get_random').addEventListener("click", (event) => chuck.randomJoke());
     document.getElementById('chuck__joke_key').addEventListener("change", (event) => chuck.text = event.target.value);
-    document.getElementById('chuck__joke_get_searched').addEventListener("click", (event) => renderJoke("multi", chuck.searchedJoke()));
+    document.getElementById('chuck__joke_get_searched').addEventListener("click", (event) => chuck.searchedJoke());
     const sort_select = document.getElementById("sorting_select");
     sort_select.selectedIndex = 0;
     sort_select.addEventListener("change", (e) => {
@@ -97,48 +170,48 @@ function addEvents() {
     //create modal events
     const create_modal = document.getElementById("create_modal");
     document.getElementById("create_btn").addEventListener("click", (e) => {
-        create_modal.style.display = "block";
-        create_modal.style.animation = "fadeIn 0.3s";
+        create_modal.classList.remove("hidden");
+        create_modal.animate(fadeIn, {duration: 300});
 
     })
-    for (let i of document.querySelectorAll(".modal__close")) {
+    for (let i of create_modal.querySelectorAll(".modal__close")) {
         i.addEventListener("click", (e) => {
-            create_modal.style.animation = "fadeOut 0.3s";
-            setTimeout(() => {
-                create_modal.style.display = "none"
-            }, 300);
+            create_modal.animate(fadeOut, {duration:300})
+            Promise.all(create_modal.getAnimations().map((animation) => animation.finished)).then(
+                () => create_modal.classList.add("hidden"),
+            );
 
         })
     }
     document.getElementById("create_modal_save").addEventListener("click", (e) => {
-        if (/\S+\s+\(\S+@\S+\.\S+\)/g.test(document.getElementById("modal__joke_author").value)){
+        if (/\S+\s+\(\S+@\S+\.\S+\)/g.test(document.getElementById("modal__joke_author").value)) {
             createJoke()
-            create_modal.style.animation = "fadeOut 0.3s";
-            setTimeout(() => {
-                create_modal.style.display = "none"
-            }, 300);
+            create_modal.animate(fadeOut, {duration:300});
+            Promise.all(create_modal.getAnimations().map((animation) => animation.finished)).then(
+                () => create_modal.classList.add("hidden"),
+            );
 
-        }else {
+        } else {
             alert("Invalid Author. Please type author like 'Author (Email)'");
         }
-
-
     })
+
     const detailModal = document.getElementById("detail_modal");
     detailModal.querySelector(".modal__close").addEventListener("click", (e) => {
-        detailModal.style.animation = "fadeOut 0.3s";
-        setTimeout(() => {
-            detailModal.style.display = "none"
-        }, 300);
+        detailModal.animate(fadeOut, {duration:300});
+        Promise.all(detailModal.getAnimations().map((animation) => animation.finished)).then(
+            () => detailModal.classList.add("hidden"),
+        );
     });
-    const likebtn = document.getElementById("like_btn");
-    likebtn.addEventListener("click", (e) => {
-        if (likebtn.classList.contains("selected")) {
+
+    const likeBtn = document.getElementById("like_btn");
+    const likeBtnFunc = () => {
+        if (likeBtn.classList.contains("selected")) {
             jokeIndexes = "all";
             renderCard();
-            likebtn.classList.remove("selected");
+            likeBtn.classList.remove("selected");
         } else {
-            likebtn.classList.add("selected");
+            likeBtn.classList.add("selected");
             if (JSON.parse(localStorage.getItem("liked")) !== null) {
                 jokeIndexes = JSON.parse(localStorage.getItem("liked"));
                 renderCard()
@@ -146,22 +219,11 @@ function addEvents() {
                 document.getElementById('card_container').innerHTML = '<img alt="loading" class="w-full h-full" src="public/loading.gif">';
             }
         }
-    })
-    likebtn.querySelector(".btn__svg").addEventListener("click", (e) => {
-        if (likebtn.classList.contains("selected")) {
-            likebtn.classList.remove("selected");
-            jokeIndexes = "all";
-            renderCard();
-        } else {
-            likebtn.classList.add("selected");
-            if (JSON.parse(localStorage.getItem("liked")) !== null) {
-                jokeIndexes = JSON.parse(localStorage.getItem("liked"));
-                renderCard()
-            } else {
-                document.getElementById('card_container').innerHTML = '<img alt="loading" class="w-full h-full" src="public/loading.gif">';
-            }
-        }
-    })
+    }
+
+    likeBtn.addEventListener("click", likeBtnFunc)
+    likeBtn.querySelector(".btn__svg").addEventListener("click", likeBtnFunc)
+
     const lightBtn = document.getElementById("light_btn");
     const darkBtn = document.getElementById("dark_btn");
     const lightBtnFunc = (e) => {
@@ -192,7 +254,27 @@ function addEvents() {
         i.addEventListener("click", (e) => i.classList.toggle("selected"));
         i.querySelector(".btn__svg").addEventListener("click", (e) => i.classList.toggle("selected"))
     }
+    document.getElementById("create_detail_save").addEventListener("click", (e) => {
+        if (/\S+\s+\(\S+@\S+\.\S+\)/g.test(document.getElementById("detail__joke_author").value)) {
+            const updateData = {
+                name: document.getElementById("detail__joke_name").value,
+                author: document.getElementById("detail__joke_author").value,
+                text: document.getElementById("detail__joke_text").value,
+                type: document.getElementById("detail__joke_type").value
+            }
+            updateJoke(document.getElementById("detail__id").value,updateData);
+            detailModal.animate(fadeOut, {duration:300});
+            Promise.all(detailModal.getAnimations().map((animation) => animation.finished)).then(
+                () => detailModal.classList.add("hidden"),
+            );
+            renderCard();
+        } else {
+            alert("Invalid Author. Please type author like 'Author (Email)'");
+        }
+
+    })
 }
+
 
 async function renderCard(ids = jokeIndexes) {
     let liked = localStorage.getItem("liked");
@@ -200,20 +282,34 @@ async function renderCard(ids = jokeIndexes) {
     document.getElementById("edit_btn").classList.remove('selected');
     root.innerHTML = '<img alt="loading" class="w-full h-full" src="public/loading.gif">';
     let res;
-    try{
+    try {
         res = await getJoke(ids, jokeType, jokeSort);
-    } catch (e){
-        root.innerHTML = `<p>${e.message} occurred, try later</p>`
+    } catch (e) {
+        root.innerHTML = `<p>${e.message} occurred, try later</p>`;
         return
     }
-    console.log(res);
-    if (res.status !== 200 ) {
-        root.innerHTML = `<p>Error occurred, try later</p>`
+    if (res.status !== 200) {
+        root.innerHTML = `<p>Error occurred, try later</p>`;
         return
     }
     root.innerHTML = ``;
     let data = res.data;
     const detailModal = document.getElementById("detail_modal");
+
+    const setUpModal = (title, inputEnable, data) => {
+        document.getElementById("detail__joke_name").value = data.name;
+        document.getElementById("detail__joke_author").value = data.author;
+        document.getElementById("detail__joke_text").value = data.body;
+        document.getElementById("detail__joke_type").value = data.type;
+        document.getElementById("detail__id").value = data.id;
+        for (let i of detailModal.querySelectorAll(".modal__input")) {
+            i.disabled = inputEnable;
+        }
+        detailModal.querySelector(".modal__inner__header__title").innerText = title;
+        detailModal.animate(fadeIn, {duration: 300});
+        detailModal.classList.remove("hidden");
+    }
+
     for (let i of data) {
         let card = document.createElement("div");
         card.innerHTML = `<div class="w-56 main__card h-fit p-4 rounded-lg m-3">
@@ -254,69 +350,32 @@ async function renderCard(ids = jokeIndexes) {
         card = card.firstElementChild;
         //query selector for detail b
         card.querySelector(".main__card__detail_btn").addEventListener("click", (e) => {
-            detailModal.querySelector("#detail__joke_name").value = i.name;
-            detailModal.querySelector("#detail__joke_author").value = i.author;
-            detailModal.querySelector("#detail__joke_text").value = i.body;
-            detailModal.querySelector("#detail__joke_type").value = i.type;
-            for (let i of detailModal.querySelectorAll(".modal__input")) {
-                i.disabled = true;
-            }
-            detailModal.querySelector(".modal__inner__header__title").innerText = "Detail";
-            detailModal.querySelector(".detail_edit").classList.remove("show");
-            detailModal.querySelector(".detail_edit").classList.add("hide");
-            detailModal.style.display = "block";
-            detailModal.style.animation = "fadeIn 0.3s"
+            setUpModal("Detail", true, i)
+            detailModal.querySelector(".detail_edit").classList.remove("flex");
+            detailModal.querySelector(".detail_edit").classList.add("hidden");
         });
         card.querySelector(".main__card__more__edit").addEventListener("click", (e) => {
-            detailModal.querySelector("#detail__joke_name").value = i.name;
-            detailModal.querySelector("#detail__joke_author").value = i.author;
-            detailModal.querySelector("#detail__joke_text").value = i.body;
-            detailModal.querySelector("#detail__joke_type").value = i.type;
-            for (let i of detailModal.querySelectorAll(".modal__input")) {
-                i.disabled = false;
-            }
-            detailModal.querySelector(".modal__inner__header__title").innerText = "Edit";
-            detailModal.querySelector(".detail_edit").classList.remove("hide");
-            detailModal.querySelector(".detail_edit").classList.add("show");
-            document.getElementById("create_detail_save").addEventListener("click", (e) => {
-                if(/\S+\s+\(\S+@\S+\.\S+\)/g.test(document.getElementById("detail__joke_author").value)){
-                    const updateData = {
-                        name: detailModal.querySelector("#detail__joke_name").value,
-                        author: detailModal.querySelector("#detail__joke_author").value,
-                        text: detailModal.querySelector("#detail__joke_text").value,
-                        type: detailModal.querySelector("#detail__joke_type").value
-
-                    }
-                    console.log(updateJoke(i.id, updateData));
-                    detailModal.style.animation = "fadeOut 0.3s";
-                    setTimeout(() => {
-                        detailModal.style.display = "none"
-                    }, 300);
-                    renderCard();
-                } else {
-                    alert("Invalid Author. Please type author like 'Author (Email)'");
-                }
-
-            })
-            detailModal.style.display = "block";
-            detailModal.style.animation = "fadeIn 0.3s"
+            setUpModal("Edit", false, i)
+            detailModal.querySelector(".detail_edit").classList.remove("hidden");
+            detailModal.querySelector(".detail_edit").classList.add("flex");
+            detailModal.classList.remove("hidden");
+            detailModal.animate(fadeIn, {duration: 300});
         });
         card.querySelector(".main__card__more__delete").addEventListener("click", (e) => {
             removeJoke(i.id);
             removeLike(i.id);
             renderCard();
         });
-        console.log(liked);
-        if(liked.includes(i.id)) card.querySelector(".like_btn").classList.add("liked");
+        if (liked.includes(i.id)) card.querySelector(".like_btn").classList.add("liked");
         card.querySelector(".like_btn").addEventListener("click", (e) => {
             if (card.querySelector(".like_btn").classList.contains("liked")) {
                 card.querySelector(".like_btn").classList.remove("liked");
                 removeLike(i.id);
-                updateLikes("down",i.id);
+                updateLikes("down", i.id);
             } else {
                 card.querySelector(".like_btn").classList.add("liked");
                 addLike(i.id)
-                updateLikes("up",i.id);
+                updateLikes("up", i.id);
             }
 
         })

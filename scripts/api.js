@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiGateway = ""
+const apiGateway = "http://localhost:3000/"
 
 export async function addJoke(data) {
     return axios.post(apiGateway + 'api/add', data,{
@@ -38,10 +38,8 @@ export async function updateJoke(id, data) {
 export async function signUp(login, password, callBackError, callBackSuccess) {
     const res = await axios.post(apiGateway + 'user/create', {email: login, password: password})
     if (res.data.status === "OK") {
-        localStorage.setItem("token", res.data.token)
-        callBackSuccess();
+        callBackSuccess(res.data);
     } else {
-        localStorage.removeItem("token");
         callBackError(res.data.status);
     }
 }
@@ -54,19 +52,15 @@ export async function logIn(login, password, callBackError, callBackSuccess) {
             }
         })
         if (res.data.status === "OK") {
-            localStorage.setItem("token", res.data.token)
-            await callBackSuccess();
+            await callBackSuccess(res.data);
         } else {
-            localStorage.removeItem("token");
             await callBackError(res.data.status)
         }
     } else {
         const res = await axios.post(apiGateway + 'user/login', {email: login, password: password})
         if (res.data.status === "OK") {
-            localStorage.setItem("token", res.data.token)
-            await callBackSuccess();
+            await callBackSuccess(res.data);
         } else {
-            localStorage.removeItem("token");
             await callBackError(res.data.status);
         }
     }

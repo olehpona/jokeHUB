@@ -13,82 +13,89 @@
         <h1>Joke<span class="header__title-sub px-1 rounded-lg ">HUB</span></h1>
     </div>
 </header>
-<main class=" main h-[calc(100%-10rem)] lg:h-[calc(100%-10rem)]">
+<main class=" main h-[calc(100%-10rem)] lg:h-[calc(100%-12rem)]">
     <div class="container mx-auto h-full mb-2 flex flex-col items-center sm:flex-row px-2">
-        <div class="overflow-y-auto main__cards rounded-lg overflow-hidden w-full sm:w-2/6 justify-center p-4 h-1/3 sm:h-full m-1.5">
-            <div class="flex flex-col mb-2">
-                <label for="chuck__joke_type">Joke Category</label>
-                <select id="chuck__joke_type" class="h-8 rounded-lg modal__input">
-                    <option value="all">All</option>
-                </select>
+        <div class="w-11/12 sm:w-2/6 overflow-y-hidden px-2 overflow-x-hidden  h-fit sm:h-full mx-1">
+            <button class="sm:hidden  main__cards rounded-t-lg sm:rounded-lg mb-0 m-1.5 w-full h-8" id="chuckNoris_open">Chuck Noris</button>
+            <div class="main__cards rounded-b-lg sm:rounded-lg overflow-hidden w-full h-[calc(100%-2rem)] sm:h-full hidden sm:block  justify-center p-4 mt-0  m-1.5" id="chuck_body">
+                <div class="flex flex-col mb-2">
+                    <label for="chuck__joke_type">Joke Category</label>
+                    <select id="chuck__joke_type" class="h-8 rounded-lg modal__input">
+                        <option value="all">All</option>
+                    </select>
+                </div>
+                <button id="chuck__joke_get_random" class="text-center w-full h-14 rounded-lg main__card__button">Get random
+                    Joke
+                </button>
+                <div class="flex flex-col mb-4">
+                    <label for="chuck__joke_key">Search</label>
+                    <input id="chuck__joke_key" class="h-14 rounded-lg modal__input" type="text"
+                           placeholder="Enter search text">
+                </div>
+                <button id="chuck__joke_get_searched" class="text-center w-full h-14 rounded-lg main__card__button">Search
+                    Joke
+                </button>
+                <div id="chuck__joke__body"
+                     class="flex mt-2 flex-wrap h-3/5 overflow-x-hidden overflow-y-scroll w-full justify-center"></div>
             </div>
-            <button id="chuck__joke_get_random" class="text-center w-full h-14 rounded-lg main__card__button">Get random
-                Joke
-            </button>
-            <div class="flex flex-col mb-4">
-                <label for="chuck__joke_key">Search</label>
-                <input id="chuck__joke_key" class="h-14 rounded-lg modal__input" type="text"
-                       placeholder="Enter search text">
-            </div>
-            <button id="chuck__joke_get_searched" class="text-center w-full h-14 rounded-lg main__card__button">Search
-                Joke
-            </button>
-            <div id="chuck__joke__body"
-                 class="flex mt-2 flex-wrap h-3/5 overflow-x-hidden overflow-y-scroll w-full justify-center"></div>
         </div>
-        <div class="overflow-y-auto main__cards rounded-lg w-full sm:w-4/6 h-2/3 sm:h-full m-1.5">
-            <div class="w-full lg:w-2/5 p-2 flex flex-col h-fit">
-                <label for="sorting_select">Sorting by</label>
-                <select id="sorting_select" class="h-8 rounded-lg modal__input">
-                    <option value="none">None</option>
-                    <option value="up">Most liked first</option>
-                </select>
-            </div>
-            <div class="w-full justify-center flex flex-wrap" id="card_container">
-                <div class="w-56 main__card h-fit p-4 rounded-lg m-3">
-                    <div class="main__card__body">
-                        <header class="h-2/5 mb-4 ">
-                            <h4 class="font-medium truncate  mb-0.5">Василько аааааааааааааааааааааааааааааааааааааа</h4>
-                            <h3 class="h-4/6 overflow-hidden text-ellipsis">Одного разу амереканець, німець і
-                                івафівафівафівафівафівафіваіфваіавфіва</h3>
+        <div class="w-11/12 sm:w-4/6 overflow-y-hidden mt-1 px-2 overflow-x-hidden h-full sm:h-full mx-1">
+            <button class="sm:hidden  main__cards rounded-t-lg sm:rounded-lg mb-0 m-1.5 w-full h-8 open" id="joke_open">JokeHUB</button>
+            <div class="overflow-y-auto main__cards rounded-b-lg sm:rounded-lg overflow-hidden w-full h-[calc(100%-2rem)] sm:h-full sm:block  justify-center p-4 mt-0  m-1.5" id="joke_body">
+                <div class="w-full lg:w-2/5 p-2 flex flex-col h-fit">
+                    <label for="sorting_select">Sorting by</label>
+                    <select id="sorting_select" class="h-8 rounded-lg modal__input">
+                        <option value="none">None</option>
+                        <option value="up">Most liked first</option>
+                    </select>
+                </div>
+                <div class="w-full justify-center flex flex-wrap" id="card_container">
+                    <div class="w-56 main__card h-fit p-4 rounded-lg m-3">
+                        <div class="main__card__body">
+                            <header class="h-2/5 mb-4 ">
+                                <h4 class="font-medium truncate  mb-0.5">Василько аааааааааааааааааааааааааааааааааааааа</h4>
+                                <h3 class="h-4/6 overflow-hidden text-ellipsis">Одного разу амереканець, німець і
+                                    івафівафівафівафівафівафіваіфваіавфіва</h3>
 
-                        </header>
-                        <div class="h-2/5 text-ellipsis overflow-hidden">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam architecto autem
-                                corporis,
-                                error,
-                                esse ex harum laudantium molestiae natus odio odit recusandae repellat. Deserunt in iure
-                                laudantium
-                                neque reiciendis? AAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
-                        </div>
-                        <div class="flex mt-3">
-                            <button class="flex items-center px-3 justify-start basis-4/5 main__card__button mr-2 rounded-lg">
-                                Detail
-                            </button>
-                            <button class="basis-1/5 main__card__button rounded-lg flex justify-center items-center">
-                                <svg fill="#000000" height="90%" width="90%"
-                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                     viewBox="0 0 471.701 471.701" xml:space="preserve">
+                            </header>
+                            <div class="h-2/5 text-ellipsis overflow-hidden">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam architecto autem
+                                    corporis,
+                                    error,
+                                    esse ex harum laudantium molestiae natus odio odit recusandae repellat. Deserunt in iure
+                                    laudantium
+                                    neque reiciendis? AAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                            </div>
+                            <div class="flex mt-3">
+                                <button class="flex items-center px-3 justify-start basis-4/5 main__card__button mr-2 rounded-lg">
+                                    Detail
+                                </button>
+                                <button class="basis-1/5 main__card__button rounded-lg flex justify-center items-center">
+                                    <svg fill="#000000" height="90%" width="90%"
+                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         viewBox="0 0 471.701 471.701" xml:space="preserve">
                         <g>
                             <path d="M433.601,67.001c-24.7-24.7-57.4-38.2-92.3-38.2s-67.7,13.6-92.4,38.3l-12.9,12.9l-13.1-13.1   c-24.7-24.7-57.6-38.4-92.5-38.4c-34.8,0-67.6,13.6-92.2,38.2c-24.7,24.7-38.3,57.5-38.2,92.4c0,34.9,13.7,67.6,38.4,92.3   l187.8,187.8c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-3.9l188.2-187.5c24.7-24.7,38.3-57.5,38.3-92.4   C471.801,124.501,458.301,91.701,433.601,67.001z M414.401,232.701l-178.7,178l-178.3-178.3c-19.6-19.6-30.4-45.6-30.4-73.3   s10.7-53.7,30.3-73.2c19.5-19.5,45.5-30.3,73.1-30.3c27.7,0,53.8,10.8,73.4,30.4l22.6,22.6c5.3,5.3,13.8,5.3,19.1,0l22.4-22.4   c19.6-19.6,45.7-30.4,73.3-30.4c27.6,0,53.6,10.8,73.2,30.3c19.6,19.6,30.3,45.6,30.3,73.3   C444.801,187.101,434.001,213.101,414.401,232.701z"/>
                         </g>
-                                    <rect class="btn__svg" x="0" y="0" width="10" height="10"/>
+                                        <rect class="btn__svg" x="0" y="0" width="10" height="10"/>
                         </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-2 justify-center rounded-b-lg main__card__more h-8">
+                            <button class="flex items-center px-3 justify-start basis-3/6 main__card__button mr-2 rounded-lg">
+                                Delete
+                            </button>
+                            <button class="basis-3/6 main__card__button rounded-lg flex justify-center items-center">
+                                Edit
                             </button>
                         </div>
                     </div>
-                    <div class="mt-2 justify-center rounded-b-lg main__card__more h-8">
-                        <button class="flex items-center px-3 justify-start basis-3/6 main__card__button mr-2 rounded-lg">
-                            Delete
-                        </button>
-                        <button class="basis-3/6 main__card__button rounded-lg flex justify-center items-center">
-                            Edit
-                        </button>
-                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
+
     </div>
 </main>
 <nav class="w-full fixed bottom-2 nav flex justify-center items-center h-fit">
@@ -145,7 +152,7 @@
         </button>
     </div>
 </nav>
-<div class="modal fixed w-full overflow-auto h-full p-8" id="create_modal">
+<div class="modal hidden fixed w-full overflow-auto h-full p-8" id="create_modal">
     <div class="modal__inner h-fit overflow-y-scroll  mx-auto w-3/12 p-4 z-10 rounded-lg min-w-fit">
         <header class="modal__inner__header flex flex-row justify-between items-center mb-4">
             <h3 class="modal__inner__header__title text-3xl font-medium">Create</h3>
@@ -192,7 +199,7 @@
         </div>
     </div>
 </div>
-<div class="modal fixed w-full overflow-auto h-full p-8" id="detail_modal">
+<div class="modal hidden fixed w-full overflow-auto h-full p-8" id="detail_modal">
     <div class="modal__inner h-fit overflow-y-scroll  mx-auto w-3/12 p-4 z-10 rounded-lg min-w-fit">
         <header class="modal__inner__header flex flex-row justify-between items-center mb-4">
             <h3 class="modal__inner__header__title text-3xl font-medium">Details</h3>
@@ -207,6 +214,7 @@
             </div>
         </header>
         <div class="modal__inner__body ">
+            <input type="hidden" id="detail__id">
             <div class="flex flex-col mb-2">
                 <label for="detail__joke_name">Name</label>
                 <input id="detail__joke_name" class="h-8 rounded-lg modal__input" type="text"
@@ -236,7 +244,7 @@
         </div>
     </div>
 </div>
-<div class="modal fixed w-full overflow-auto h-full p-8" id="login_modal">
+<div class="modal hidden fixed w-full overflow-auto h-full p-8" id="login_modal">
     <div class="modal__inner h-fit overflow-y-scroll  mx-auto w-3/12 p-4 z-10 rounded-lg min-w-fit">
         <header class="modal__inner__header flex flex-row justify-between items-center mb-4">
             <h3 class="modal__inner__header__title text-3xl font-medium">Login</h3>
