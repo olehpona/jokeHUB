@@ -101,15 +101,15 @@ if (localStorage.getItem("token")) {
 
 function addLoginEvents() {
   const showPassword = () => {
-    document.getElementById("login__password__svg1").classList.add("hidden");
-    document.getElementById("login__password__svg2").classList.remove("hidden");
+    document.getElementById("login__password__svg2").classList.add("hidden");
+    document.getElementById("login__password__svg1").classList.remove("hidden");
     document.getElementById("modal__login_password").type = "text";
   };
   const hidePassword = () => {
       document
-        .getElementById("login__password__svg1")
+        .getElementById("login__password__svg2")
         .classList.remove("hidden");
-      document.getElementById("login__password__svg2").classList.add("hidden");
+      document.getElementById("login__password__svg1").classList.add("hidden");
       document.getElementById("modal__login_password").type = "password";
   }
   document

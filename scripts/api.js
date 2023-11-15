@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiGateway = "http://localhost:3000/"
+const apiGateway = ""
 
 export async function addJoke(data) {
     return axios.post(apiGateway + 'api/add', data,{
