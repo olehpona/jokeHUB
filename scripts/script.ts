@@ -44,7 +44,7 @@ if (localStorage.getItem("token")) {
     },
     async function (data) {
       localStorage.setItem("token", data.token);
-      await getLikes();
+      await getLikes((data : string[]): void => {localStorage.setItem("liked",JSON.stringify(data));});
       await renderCard();
     }
   );
