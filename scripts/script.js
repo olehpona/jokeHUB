@@ -40,6 +40,7 @@ if (localStorage.getItem("token")) {
     "",
     function () {
       localStorage.removeItem("token");
+      location.reload();
     },
     async function (data) {
       localStorage.setItem("token", data.token);
