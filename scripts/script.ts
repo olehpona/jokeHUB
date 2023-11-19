@@ -1,5 +1,5 @@
 import "../styles/global.css";
-import { ChuckNorisJokes } from "./classes.js";
+import { ChuckNorisJokes } from "./classes.ts";
 import {
   addJoke,
   getJoke,
@@ -11,7 +11,7 @@ import {
   getLikes,
   addLike,
   updateLikes,
-} from "./api.js";
+} from "./api.ts";
 
 const chuck = new ChuckNorisJokes("chuck__joke__body", addAppEvents);
 let jokeType = "all";
@@ -32,7 +32,7 @@ const shrink = {
   height: ["100%", "3rem"],
 };
 
-addLoginEvents()
+addLoginEvents();
 
 if (localStorage.getItem("token")) {
   logIn(
@@ -42,169 +42,191 @@ if (localStorage.getItem("token")) {
       localStorage.removeItem("token");
       location.reload();
     },
-    async function (data) {
+    async (data) => {
       localStorage.setItem("token", data.token);
-      await getLikes((data : string[]): void => {localStorage.setItem("liked",JSON.stringify(data));});
+      await getLikes((data: string[]): void => {
+        localStorage.setItem("liked", JSON.stringify(data));
+      });
       await renderCard();
     }
   );
 } else {
-  document.getElementById("login_modal").style.display = "block";
-  document
-    .getElementById("login_modal_login")
-    .addEventListener("click", (e) => {
-      logIn(
-        document.getElementById("modal__login_login").value,
-        document.getElementById("modal__login_password").value,
-        (e) => {
-          localStorage.removeItem("token");
-          document
-            .getElementById("modal__login__error")
-            .classList.remove("hidden");
-          document.getElementById("modal__login__error").innerText = e;
-        },
-        async (data) => {
-          localStorage.setItem("token", data.token);
-          document
-            .getElementById("modal__login__error")
-            .classList.add("hidden");
-          document.getElementById("login_modal").style.display = "none";
-          await getLikes();
-          renderCard();
-        }
-      );
-    });
-  document
-    .getElementById("login_modal_signup")
-    .addEventListener("click", (e) => {
+  (document.getElementById("login_modal") as HTMLElement).style.display =
+    "block";
+  (
+    document.getElementById("login_modal_login") as HTMLElement
+  ).addEventListener("click", () => {
+    logIn(
+      (<HTMLInputElement>document.getElementById("modal__login_login")).value,
+      (<HTMLInputElement>document.getElementById("modal__login_password"))
+        .value,
+      (e) => {
+        localStorage.removeItem("token");
+        (<HTMLElement>(
+          document.getElementById("modal__login__error")
+        )).classList.remove("hidden");
+        (<HTMLElement>(
+          document.getElementById("modal__login__error")
+        )).innerText = e;
+      },
+      async (data) => {
+        localStorage.setItem("token", data.token);
+        (<HTMLElement>(
+          document.getElementById("modal__login__error")
+        )).classList.add("hidden");
+        (<HTMLElement>document.getElementById("login_modal")).style.display =
+          "none";
+        await getLikes((data: string[]): void => {
+          localStorage.setItem("liked", JSON.stringify(data));
+        });
+        renderCard();
+      }
+    );
+  });
+  (<HTMLElement>document.getElementById("login_modal_signup")).addEventListener(
+    "click",
+    () => {
       signUp(
-        document.getElementById("modal__login_login").value,
-        document.getElementById("modal__login_password").value,
+        (<HTMLInputElement>document.getElementById("modal__login_login")).value,
+        (<HTMLInputElement>document.getElementById("modal__login_password"))
+          .value,
         (e) => {
           localStorage.removeItem("token");
-          document
-            .getElementById("modal__login__error")
-            .classList.remove("hidden");
-          document.getElementById("modal__login__error").innerText = e;
+          (<HTMLElement>(
+            document.getElementById("modal__login__error")
+          )).classList.remove("hidden");
+          (<HTMLElement>(
+            document.getElementById("modal__login__error")
+          )).innerText = e;
         },
         async (data) => {
           localStorage.setItem("token", data.token);
-          document
-            .getElementById("modal__login__error")
-            .classList.add("hidden");
-          document.getElementById("login_modal").style.display = "none";
-          await getLikes();
+          (<HTMLElement>(
+            document.getElementById("modal__login__error")
+          )).classList.add("hidden");
+          (<HTMLElement>document.getElementById("login_modal")).style.display =
+            "none";
+          await getLikes((data: string[]): void => {
+            localStorage.setItem("liked", JSON.stringify(data));
+          });
           renderCard();
         }
       );
-    });
+    }
+  );
 }
 
 function addLoginEvents() {
   const showPassword = () => {
-    document.getElementById("login__password__svg2").classList.add("hidden");
-    document.getElementById("login__password__svg1").classList.remove("hidden");
-    document.getElementById("modal__login_password").type = "text";
+    (<HTMLElement>(
+      document.getElementById("login__password__svg2")
+    )).classList.add("hidden");
+    (<HTMLElement>(
+      document.getElementById("login__password__svg1")
+    )).classList.remove("hidden");
+    (<HTMLInputElement>document.getElementById("modal__login_password")).type =
+      "text";
   };
   const hidePassword = () => {
-      document
-        .getElementById("login__password__svg2")
-        .classList.remove("hidden");
-      document.getElementById("login__password__svg1").classList.add("hidden");
-      document.getElementById("modal__login_password").type = "password";
-  }
-  document
-    .getElementById("login__password__show")
-    .addEventListener("mousedown", () => {
-        showPassword();
-    });
-  document
-    .getElementById("login__password__show")
-    .addEventListener("mouseup", () => {
-        hidePassword();
-    });
-  document
-    .getElementById("login__password__show")
-    .addEventListener("touchstart", () => {
-        showPassword();
-    });
-  document
-    .getElementById("login__password__show")
-    .addEventListener("touchend", () => {
-        hidePassword();
-    });
+    (<HTMLElement>(
+      document.getElementById("login__password__svg2")
+    )).classList.remove("hidden");
+    (<HTMLElement>(
+      document.getElementById("login__password__svg1")
+    )).classList.add("hidden");
+    (<HTMLInputElement>document.getElementById("modal__login_password")).type =
+      "password";
+  };
+  (<HTMLElement>(
+    document.getElementById("login__password__show")
+  )).addEventListener("mousedown", () => {
+    showPassword();
+  });
+  (<HTMLElement>(
+    document.getElementById("login__password__show")
+  )).addEventListener("mouseup", () => {
+    hidePassword();
+  });
+  (<HTMLElement>(
+    document.getElementById("login__password__show")
+  )).addEventListener("touchstart", () => {
+    showPassword();
+  });
+  (<HTMLElement>(
+    document.getElementById("login__password__show")
+  )).addEventListener("touchend", () => {
+    hidePassword();
+  });
 }
 
 function addAppEvents() {
-  const jokeTabOpenBtn = document.getElementById("joke_open");
-  const jokeTabBody = document.getElementById("joke_body");
-  const chuckTabOpenBtn = document.getElementById("chuckNoris_open");
-  const chuckTabBody = document.getElementById("chuck_body");
-  const chuckTabOpen = () => {
+  const jokeTabOpenBtn = <HTMLElement>document.getElementById("joke_open");
+  const jokeTabBody = <HTMLElement>document.getElementById("joke_body");
+  const chuckTabOpenBtn = <HTMLElement>(
+    document.getElementById("chuckNoris_open")
+  );
+  const chuckTabBody = <HTMLElement>document.getElementById("chuck_body");
+  const chuckBodyParent = <HTMLElement>chuckTabBody.parentElement;
+  const jokeBodyParent = <HTMLElement>jokeTabBody.parentElement;
+  const chuckTabOpen = (): void => {
     chuckTabOpenBtn.classList.add("open");
-    chuckTabOpenBtn.parentElement.animate(grow, { duration: 500 });
+    chuckBodyParent.animate(grow, { duration: 500 });
     jokeTabOpenBtn.classList.remove("open");
     chuckTabBody.classList.remove("hidden");
-    jokeTabBody.parentElement.animate(shrink, { duration: 500 });
+    jokeBodyParent.animate(shrink, { duration: 500 });
     Promise.all(
-      jokeTabOpenBtn.parentElement
+      (<HTMLElement>jokeTabOpenBtn.parentElement)
         .getAnimations()
         .map((animation) => animation.finished)
     ).then(() => {
       jokeTabBody.classList.add("hidden");
-      jokeTabOpenBtn.parentElement.classList.remove("h-full");
-      jokeTabOpenBtn.parentElement.classList.add("h-fit");
+      jokeBodyParent.classList.remove("h-full");
+      jokeBodyParent.classList.add("h-fit");
     });
     Promise.all(
-      chuckTabOpenBtn.parentElement
-        .getAnimations()
-        .map((animation) => animation.finished)
+      chuckBodyParent.getAnimations().map((animation) => animation.finished)
     ).then(() => {
-      chuckTabOpenBtn.parentElement.classList.remove("h-fit");
-      chuckTabOpenBtn.parentElement.classList.add("h-full");
+      chuckBodyParent.classList.remove("h-fit");
+      chuckBodyParent.classList.add("h-full");
     });
-    jokeTabBody.parentElement.classList.remove("h-full");
-    jokeTabBody.parentElement.classList.add("h-fit");
+    jokeBodyParent.classList.remove("h-full");
+    jokeBodyParent.classList.add("h-fit");
   };
   const jokeTabOpen = () => {
     jokeTabOpenBtn.classList.add("open");
-    jokeTabOpenBtn.parentElement.animate(grow, { duration: 500 });
+    jokeBodyParent.animate(grow, { duration: 500 });
     chuckTabOpenBtn.classList.remove("open");
     jokeTabBody.classList.remove("hidden");
-    chuckTabOpenBtn.parentElement.animate(shrink, { duration: 500 });
+    chuckBodyParent.animate(shrink, { duration: 500 });
     Promise.all(
-      chuckTabOpenBtn.parentElement
-        .getAnimations()
-        .map((animation) => animation.finished)
+      chuckBodyParent.getAnimations().map((animation) => animation.finished)
     ).then(() => {
       chuckTabBody.classList.add("hidden");
-      chuckTabOpenBtn.parentElement.classList.remove("h-full");
-      chuckTabOpenBtn.parentElement.classList.add("h-fit");
+      chuckBodyParent.classList.remove("h-full");
+      chuckBodyParent.classList.add("h-fit");
     });
     Promise.all(
-      jokeTabOpenBtn.parentElement
-        .getAnimations()
-        .map((animation) => animation.finished)
+      jokeBodyParent.getAnimations().map((animation) => animation.finished)
     ).then(() => {
-      jokeTabOpenBtn.parentElement.classList.remove("h-fit");
-      jokeTabOpenBtn.parentElement.classList.add("h-full");
+      jokeBodyParent.classList.remove("h-fit");
+      jokeBodyParent.classList.add("h-full");
     });
-    chuckTabBody.parentElement.classList.remove("h-full");
-    chuckTabBody.parentElement.classList.add("h-fit");
+    chuckBodyParent.classList.remove("h-full");
+    chuckBodyParent.classList.add("h-fit");
   };
-  chuckTabOpenBtn.addEventListener("click", (e) => {
-    if (chuckTabBody.parentElement.getAnimations().length === 0) {
+  chuckTabOpenBtn.addEventListener("click", () => {
+    if (chuckBodyParent.getAnimations().length === 0) {
       console.log(chuckTabBody.getAnimations());
-      if (e.target.classList.contains("open")) {
+      if (chuckTabOpenBtn.classList.contains("open")) {
         jokeTabOpen();
       } else {
         chuckTabOpen();
       }
     }
   });
-  jokeTabOpenBtn.addEventListener("click", (e) => {
-    if (chuckTabBody.parentElement.getAnimations().length === 0) {
-      if (e.target.classList.contains("open")) {
+  jokeTabOpenBtn.addEventListener("click", () => {
+    if (chuckBodyParent.getAnimations().length === 0) {
+      if (jokeTabOpenBtn.classList.contains("open")) {
         chuckTabOpen();
       } else {
         jokeTabOpen();
@@ -212,51 +234,62 @@ function addAppEvents() {
     }
   });
   chuck.prepareChuckJokeTypes("chuck__joke_type");
-  document
-    .getElementById("chuck__joke_type")
-    .addEventListener("change", (event) => {
-      chuck.category = event.target.value;
-    });
-  document
-    .getElementById("chuck__joke_get_random")
-    .addEventListener("click", (event) => chuck.randomJoke());
-  document
-    .getElementById("chuck__joke_key")
-    .addEventListener("change", (event) => (chuck.text = event.target.value));
-  document
-    .getElementById("chuck__joke_get_searched")
-    .addEventListener("click", (event) => chuck.searchedJoke());
-  const sort_select = document.getElementById("sorting_select");
+  (<HTMLElement>document.getElementById("chuck__joke_type")).addEventListener(
+    "change",
+    (event) => {
+      chuck.category = (<HTMLInputElement>event.target).value;
+    }
+  );
+  (<HTMLElement>(
+    document.getElementById("chuck__joke_get_random")
+  )).addEventListener("click", () => chuck.randomJoke());
+  (<HTMLElement>document.getElementById("chuck__joke_key")).addEventListener(
+    "change",
+    (event) => (chuck.text = (<HTMLInputElement>event.target).value)
+  );
+  (<HTMLElement>(
+    document.getElementById("chuck__joke_get_searched")
+  )).addEventListener("click", () => chuck.searchedJoke());
+  const sort_select = <HTMLSelectElement>(
+    document.getElementById("sorting_select")
+  );
   sort_select.selectedIndex = 0;
-  sort_select.addEventListener("change", (e) => {
+  sort_select.addEventListener("change", () => {
     jokeSort = sort_select.value;
     renderCard();
   });
-  document.getElementById("edit_btn").addEventListener("click", (e) => {
-    for (let i of document.querySelectorAll(".main__card__more")) {
-      i.classList.toggle("open");
+  (<HTMLButtonElement>document.getElementById("edit_btn")).addEventListener(
+    "click",
+    () => {
+      for (let i of document.querySelectorAll(".main__card__more")) {
+        i.classList.toggle("open");
+      }
     }
-  });
+  );
   //create modal events
-  const create_modal = document.getElementById("create_modal");
-  document.getElementById("create_btn").addEventListener("click", (e) => {
-    create_modal.classList.remove("hidden");
-    create_modal.animate(fadeIn, { duration: 300 });
-  });
+  const create_modal = <HTMLElement>document.getElementById("create_modal");
+  (<HTMLButtonElement>document.getElementById("create_btn")).addEventListener(
+    "click",
+    () => {
+      create_modal.classList.remove("hidden");
+      create_modal.animate(fadeIn, { duration: 300 });
+    }
+  );
   for (let i of create_modal.querySelectorAll(".modal__close")) {
-    i.addEventListener("click", (e) => {
+    i.addEventListener("click", () => {
       create_modal.animate(fadeOut, { duration: 300 });
       Promise.all(
         create_modal.getAnimations().map((animation) => animation.finished)
       ).then(() => create_modal.classList.add("hidden"));
     });
   }
-  document
-    .getElementById("create_modal_save")
-    .addEventListener("click", (e) => {
+  (<HTMLElement>document.getElementById("create_modal_save")).addEventListener(
+    "click",
+    () => {
       if (
         /\S+\s+\(\S+@\S+\.\S+\)/g.test(
-          document.getElementById("modal__joke_author").value
+          (<HTMLInputElement>document.getElementById("modal__joke_author"))
+            .value
         )
       ) {
         createJoke();
@@ -267,17 +300,21 @@ function addAppEvents() {
       } else {
         alert("Invalid Author. Please type author like 'Author (Email)'");
       }
-    });
+    }
+  );
 
-  const detailModal = document.getElementById("detail_modal");
-  detailModal.querySelector(".modal__close").addEventListener("click", (e) => {
-    detailModal.animate(fadeOut, { duration: 300 });
-    Promise.all(
-      detailModal.getAnimations().map((animation) => animation.finished)
-    ).then(() => detailModal.classList.add("hidden"));
-  });
+  const detailModal = <HTMLElement>document.getElementById("detail_modal");
+  (<HTMLElement>detailModal.querySelector(".modal__close")).addEventListener(
+    "click",
+    () => {
+      detailModal.animate(fadeOut, { duration: 300 });
+      Promise.all(
+        detailModal.getAnimations().map((animation) => animation.finished)
+      ).then(() => detailModal.classList.add("hidden"));
+    }
+  );
 
-  const likeBtn = document.getElementById("like_btn");
+  const likeBtn = <HTMLButtonElement>document.getElementById("like_btn");
   const likeBtnFunc = () => {
     if (likeBtn.classList.contains("selected")) {
       jokeIndexes = "all";
@@ -285,22 +322,25 @@ function addAppEvents() {
       likeBtn.classList.remove("selected");
     } else {
       likeBtn.classList.add("selected");
-      if (JSON.parse(localStorage.getItem("liked")) !== null) {
-        jokeIndexes = JSON.parse(localStorage.getItem("liked"));
+      if (JSON.parse(<string>localStorage.getItem("liked")) !== null) {
+        jokeIndexes = JSON.parse(<string>localStorage.getItem("liked"));
         renderCard();
       } else {
-        document.getElementById("card_container").innerHTML =
+        (<HTMLElement>document.getElementById("card_container")).innerHTML =
           '<img alt="loading" class="w-full h-full" src="public/loading.gif">';
       }
     }
   };
 
   likeBtn.addEventListener("click", likeBtnFunc);
-  likeBtn.querySelector(".btn__svg").addEventListener("click", likeBtnFunc);
+  (<HTMLElement>likeBtn.querySelector(".btn__svg")).addEventListener(
+    "click",
+    likeBtnFunc
+  );
 
-  const lightBtn = document.getElementById("light_btn");
-  const darkBtn = document.getElementById("dark_btn");
-  const lightBtnFunc = (e) => {
+  const lightBtn = <HTMLElement>document.getElementById("light_btn");
+  const darkBtn = <HTMLElement>document.getElementById("dark_btn");
+  const lightBtnFunc = () => {
     if (lightBtn.classList.contains("selected")) {
       jokeType = "all";
       renderCard();
@@ -310,7 +350,7 @@ function addAppEvents() {
       renderCard();
     }
   };
-  const darkBtnFunc = (e) => {
+  const darkBtnFunc = () => {
     if (darkBtn.classList.contains("selected")) {
       jokeType = "all";
       renderCard();
@@ -322,29 +362,46 @@ function addAppEvents() {
   };
   lightBtn.addEventListener("click", lightBtnFunc);
   darkBtn.addEventListener("click", darkBtnFunc);
-  lightBtn.querySelector(".btn__svg").addEventListener("click", lightBtnFunc);
-  darkBtn.querySelector(".btn__svg").addEventListener("click", darkBtnFunc);
+  (<HTMLElement>lightBtn.querySelector(".btn__svg")).addEventListener(
+    "click",
+    lightBtnFunc
+  );
+  (<HTMLElement>darkBtn.querySelector(".btn__svg")).addEventListener(
+    "click",
+    darkBtnFunc
+  );
   for (let i of document.querySelectorAll(".nav__button.toggle")) {
-    i.addEventListener("click", (e) => i.classList.toggle("selected"));
-    i.querySelector(".btn__svg").addEventListener("click", (e) =>
+    i.addEventListener("click", () => i.classList.toggle("selected"));
+    (<HTMLElement>i.querySelector(".btn__svg")).addEventListener("click", () =>
       i.classList.toggle("selected")
     );
   }
-  document
-    .getElementById("create_detail_save")
-    .addEventListener("click", (e) => {
+  (<HTMLElement>document.getElementById("create_detail_save")).addEventListener(
+    "click",
+    () => {
       if (
         /\S+\s+\(\S+@\S+\.\S+\)/g.test(
-          document.getElementById("detail__joke_author").value
+          (<HTMLInputElement>document.getElementById("detail__joke_author"))
+            .value
         )
       ) {
         const updateData = {
-          name: document.getElementById("detail__joke_name").value,
-          author: document.getElementById("detail__joke_author").value,
-          text: document.getElementById("detail__joke_text").value,
-          type: document.getElementById("detail__joke_type").value,
+          name: (<HTMLInputElement>document.getElementById("detail__joke_name"))
+            .value,
+          author: (<HTMLInputElement>(
+            document.getElementById("detail__joke_author")
+          )).value,
+          text: (<HTMLInputElement>document.getElementById("detail__joke_text"))
+            .value,
+          type: <"light" | "dark">(
+            (<HTMLInputElement>document.getElementById("detail__joke_type"))
+              .value
+          ),
         };
-        updateJoke(document.getElementById("detail__id").value, updateData);
+        updateJoke(
+          (<HTMLInputElement>document.getElementById("detail__id")).value,
+          updateData
+        );
         detailModal.animate(fadeOut, { duration: 300 });
         Promise.all(
           detailModal.getAnimations().map((animation) => animation.finished)
@@ -353,19 +410,22 @@ function addAppEvents() {
       } else {
         alert("Invalid Author. Please type author like 'Author (Email)'");
       }
-    });
+    }
+  );
 }
 
 async function renderCard(ids = jokeIndexes) {
-  let liked = localStorage.getItem("liked");
-  const root = document.getElementById("card_container");
-  document.getElementById("edit_btn").classList.remove("selected");
+  let liked = <string>localStorage.getItem("liked");
+  const root = <HTMLElement>document.getElementById("card_container");
+  (<HTMLElement>document.getElementById("edit_btn")).classList.remove(
+    "selected"
+  );
   root.innerHTML =
     '<img alt="loading" class="w-full h-full" src="public/loading.gif">';
   let res;
   try {
     res = await getJoke(ids, jokeType, jokeSort);
-  } catch (e) {
+  } catch (e: any){
     root.innerHTML = `<p>${e.message} occurred, try later</p>`;
     return;
   }
@@ -374,34 +434,42 @@ async function renderCard(ids = jokeIndexes) {
     return;
   }
   root.innerHTML = ``;
-  let data = res.data;
-  const detailModal = document.getElementById("detail_modal");
+  let data: Array<{name:string, author: string, likes: number, body: string, type:"light"|"dark", id:string}> = res.data;
+  const detailModal = <HTMLElement>document.getElementById("detail_modal");
 
-  const setUpModal = (title, inputEnable, data) => {
-    document.getElementById("detail__joke_name").value = data.name;
-    document.getElementById("detail__joke_author").value = data.author;
-    document.getElementById("detail__joke_text").value = data.body;
-    document.getElementById("detail__joke_type").value = data.type;
-    document.getElementById("detail__id").value = data.id;
-    for (let i of detailModal.querySelectorAll(".modal__input")) {
+  const setUpModal = (title: string, inputEnable: boolean, data: {name: string, author: string, body: string, type: "light"|"dark", id: string}) => {
+    (<HTMLInputElement>document.getElementById("detail__joke_name")).value =
+      data.name;
+    (<HTMLInputElement>document.getElementById("detail__joke_author")).value =
+      data.author;
+    (<HTMLInputElement>document.getElementById("detail__joke_text")).value =
+      data.body;
+    (<HTMLInputElement>document.getElementById("detail__joke_type")).value =
+      data.type;
+    (<HTMLInputElement>document.getElementById("detail__id")).value = data.id;
+    for (let i of <NodeListOf<HTMLInputElement>>(
+      detailModal.querySelectorAll(".modal__input")
+    )) {
       i.disabled = inputEnable;
     }
-    detailModal.querySelector(".modal__inner__header__title").innerText = title;
+    (<HTMLElement>(
+      detailModal.querySelector(".modal__inner__header__title")
+    )).innerText = title;
     detailModal.animate(fadeIn, { duration: 300 });
     detailModal.classList.remove("hidden");
   };
 
-  for (let i of data) {
-    let card = document.createElement("div");
+  for (let cardData of data) {
+    let card = <Element>document.createElement("div");
     card.innerHTML = `<div class="w-56 main__card h-fit p-4 rounded-lg m-3">
                 <div class="main__card__body flex  items-stretch justify-stretch flex-col">
                     <header class="h-1/5 mb-4 ">
-                        <h4 class="font-medium truncate  mb-0.5">${i.author}</h4>
-                        <h3 class="h-4/6 overflow-hidden text-ellipsis">${i.name}</h3>
-                        <p>likes: ${i.likes}</p>
+                        <h4 class="font-medium truncate  mb-0.5">${cardData.author}</h4>
+                        <h3 class="h-4/6 overflow-hidden text-ellipsis">${cardData.name}</h3>
+                        <p>likes: ${cardData.likes}</p>
                     </header>
                     <div class="h-3/5 text-ellipsis overflow-hidden">
-                        <p>${i.body}</p>
+                        <p>${cardData.body}</p>
                     </div>
                     <div class="h-1/5 flex mt-3">
                         <button class="flex items-center px-3 justify-start basis-4/5 main__card__button mr-2 rounded-lg main__card__detail_btn">
@@ -428,44 +496,58 @@ async function renderCard(ids = jokeIndexes) {
                     </button>
                 </div>
             </div>`;
-    card = card.firstElementChild;
+    card = <Element>card.firstElementChild;
     //query selector for detail b
-    card
-      .querySelector(".main__card__detail_btn")
-      .addEventListener("click", (e) => {
-        setUpModal("Detail", true, i);
-        detailModal.querySelector(".detail_edit").classList.remove("flex");
-        detailModal.querySelector(".detail_edit").classList.add("hidden");
-      });
-    card
-      .querySelector(".main__card__more__edit")
-      .addEventListener("click", (e) => {
-        setUpModal("Edit", false, i);
-        detailModal.querySelector(".detail_edit").classList.remove("hidden");
-        detailModal.querySelector(".detail_edit").classList.add("flex");
-        detailModal.classList.remove("hidden");
-        detailModal.animate(fadeIn, { duration: 300 });
-      });
-    card
-      .querySelector(".main__card__more__delete")
-      .addEventListener("click", (e) => {
-        removeJoke(i.id);
-        removeLike(i.id);
-        renderCard();
-      });
-    if (liked.includes(i.id))
-      card.querySelector(".like_btn").classList.add("liked");
-    card.querySelector(".like_btn").addEventListener("click", (e) => {
-      if (card.querySelector(".like_btn").classList.contains("liked")) {
-        card.querySelector(".like_btn").classList.remove("liked");
-        removeLike(i.id);
-        updateLikes("down", i.id);
-      } else {
-        card.querySelector(".like_btn").classList.add("liked");
-        addLike(i.id);
-        updateLikes("up", i.id);
-      }
+    (<HTMLElement>(
+      card.querySelector(".main__card__detail_btn")
+    )).addEventListener("click", () => {
+      setUpModal("Detail", true, cardData);
+      (<HTMLElement>detailModal.querySelector(".detail_edit")).classList.remove(
+        "flex"
+      );
+      (<HTMLElement>detailModal.querySelector(".detail_edit")).classList.add(
+        "hidden"
+      );
     });
+    (<HTMLElement>(
+      card.querySelector(".main__card__more__edit")
+    )).addEventListener("click", () => {
+      setUpModal("Edit", false, cardData);
+      (<HTMLElement>detailModal.querySelector(".detail_edit")).classList.remove(
+        "hidden"
+      );
+      (<HTMLElement>detailModal.querySelector(".detail_edit")).classList.add(
+        "flex"
+      );
+      detailModal.classList.remove("hidden");
+      detailModal.animate(fadeIn, { duration: 300 });
+    });
+    (<HTMLElement>(
+      card.querySelector(".main__card__more__delete")
+    )).addEventListener("click", () => {
+      removeJoke(cardData.id);
+      removeLike(cardData.id, (data) => {
+        localStorage.setItem("liked", JSON.stringify(data));
+      });
+      renderCard();
+    });
+    const likeBtn = <HTMLElement>card.querySelector(".like_btn");
+    if (liked.includes(cardData.id)) likeBtn.classList.add("liked");
+      likeBtn.addEventListener("click", () => {
+        if (likeBtn.classList.contains("liked")) {
+          likeBtn.classList.remove("liked");
+          removeLike(cardData.id, (data) => {
+            localStorage.setItem("liked", JSON.stringify(data));
+          });
+          updateLikes("down", cardData.id);
+        } else {
+          likeBtn.classList.add("liked");
+          addLike(cardData.id, (data) => {
+            localStorage.setItem("liked", JSON.stringify(data));
+          });
+          updateLikes("up", cardData.id);
+        }
+      });
 
     root.appendChild(card);
   }
@@ -473,10 +555,10 @@ async function renderCard(ids = jokeIndexes) {
 
 function createJoke() {
   const data = {
-    author: document.getElementById("modal__joke_author").value,
-    name: document.getElementById("modal__joke_name").value,
-    body: document.getElementById("modal__joke_text").value,
-    type: document.getElementById("modal__joke_type").value,
+    author: (<HTMLInputElement>document.getElementById("modal__joke_author")).value,
+    name: (<HTMLInputElement>document.getElementById("modal__joke_name")).value,
+    body: (<HTMLInputElement>document.getElementById("modal__joke_text")).value,
+    type: (<HTMLInputElement>document.getElementById("modal__joke_type")).value,
   };
   console.log(addJoke(data));
   renderCard();
