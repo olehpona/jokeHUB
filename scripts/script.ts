@@ -42,7 +42,7 @@ if (localStorage.getItem("token")) {
       localStorage.removeItem("token");
       location.reload();
     },
-    async (data) => {
+    async (data : {token:string}) => {
       localStorage.setItem("token", data.token);
       await getLikes((data: string[]): void => {
         localStorage.setItem("liked", JSON.stringify(data));
@@ -60,7 +60,7 @@ if (localStorage.getItem("token")) {
       (<HTMLInputElement>document.getElementById("modal__login_login")).value,
       (<HTMLInputElement>document.getElementById("modal__login_password"))
         .value,
-      (e) => {
+      (e : string) => {
         localStorage.removeItem("token");
         (<HTMLElement>(
           document.getElementById("modal__login__error")
@@ -69,7 +69,7 @@ if (localStorage.getItem("token")) {
           document.getElementById("modal__login__error")
         )).innerText = e;
       },
-      async (data) => {
+      async (data : {token : string}) => {
         localStorage.setItem("token", data.token);
         (<HTMLElement>(
           document.getElementById("modal__login__error")
@@ -90,7 +90,7 @@ if (localStorage.getItem("token")) {
         (<HTMLInputElement>document.getElementById("modal__login_login")).value,
         (<HTMLInputElement>document.getElementById("modal__login_password"))
           .value,
-        (e) => {
+        (e: string) => {
           localStorage.removeItem("token");
           (<HTMLElement>(
             document.getElementById("modal__login__error")
@@ -99,7 +99,7 @@ if (localStorage.getItem("token")) {
             document.getElementById("modal__login__error")
           )).innerText = e;
         },
-        async (data) => {
+        async (data : {token: string}) => {
           localStorage.setItem("token", data.token);
           (<HTMLElement>(
             document.getElementById("modal__login__error")
@@ -504,7 +504,7 @@ async function renderCard(ids = jokeIndexes) {
       card.querySelector(".main__card__more__delete")
     )).addEventListener("click", () => {
       removeJoke(cardData.id);
-      removeLike(cardData.id, (data) => {
+      removeLike(cardData.id, (data : {}) => {
         localStorage.setItem("liked", JSON.stringify(data));
       });
       renderCard();
@@ -514,13 +514,13 @@ async function renderCard(ids = jokeIndexes) {
       likeBtn.addEventListener("click", () => {
         if (likeBtn.classList.contains("liked")) {
           likeBtn.classList.remove("liked");
-          removeLike(cardData.id, (data) => {
+          removeLike(cardData.id, (data:{}) => {
             localStorage.setItem("liked", JSON.stringify(data));
           });
           updateLikes("down", cardData.id);
         } else {
           likeBtn.classList.add("liked");
-          addLike(cardData.id, (data) => {
+          addLike(cardData.id, (data:{}) => {
             localStorage.setItem("liked", JSON.stringify(data));
           });
           updateLikes("up", cardData.id);
