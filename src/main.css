@@ -84,12 +84,7 @@ body {
 .modal__inner__footer__button:hover{
   transform:scale(1.05);
 }
-rect.btn__svg {
-  stroke:#fff;
-  fill:#fff;
-  fill-opacity:0;
-  stroke-opacity:0;
-}
+
 .main__card__more{
   display:none;
   background-color: var(--accent-color);
@@ -110,6 +105,3 @@ rect.btn__svg {
     height: 100%;
   }
 }
-
-
-

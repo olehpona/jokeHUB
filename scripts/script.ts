@@ -38,7 +38,7 @@ if (localStorage.getItem("token")) {
   logIn(
     "",
     "",
-    function () {
+    () => {
       localStorage.removeItem("token");
       location.reload();
     },
@@ -106,7 +106,7 @@ if (localStorage.getItem("token")) {
           )).classList.add("hidden");
           (<HTMLElement>document.getElementById("login_modal")).style.display =
             "none";
-          await getLikes((data: string[]): void => {
+          await getLikes((data: string[]) => {
             localStorage.setItem("liked", JSON.stringify(data));
           });
           renderCard();
@@ -327,16 +327,12 @@ function addAppEvents() {
         renderCard();
       } else {
         (<HTMLElement>document.getElementById("card_container")).innerHTML =
-          '<img alt="loading" class="w-full h-full" src="public/loading.gif">';
+          '<img alt="loading" class="w-full h-full" src="loading.gif">';
       }
     }
   };
 
   likeBtn.addEventListener("click", likeBtnFunc);
-  (<HTMLElement>likeBtn.querySelector(".btn__svg")).addEventListener(
-    "click",
-    likeBtnFunc
-  );
 
   const lightBtn = <HTMLElement>document.getElementById("light_btn");
   const darkBtn = <HTMLElement>document.getElementById("dark_btn");
@@ -362,19 +358,8 @@ function addAppEvents() {
   };
   lightBtn.addEventListener("click", lightBtnFunc);
   darkBtn.addEventListener("click", darkBtnFunc);
-  (<HTMLElement>lightBtn.querySelector(".btn__svg")).addEventListener(
-    "click",
-    lightBtnFunc
-  );
-  (<HTMLElement>darkBtn.querySelector(".btn__svg")).addEventListener(
-    "click",
-    darkBtnFunc
-  );
   for (let i of document.querySelectorAll(".nav__button.toggle")) {
     i.addEventListener("click", () => i.classList.toggle("selected"));
-    (<HTMLElement>i.querySelector(".btn__svg")).addEventListener("click", () =>
-      i.classList.toggle("selected")
-    );
   }
   (<HTMLElement>document.getElementById("create_detail_save")).addEventListener(
     "click",
@@ -421,7 +406,7 @@ async function renderCard(ids = jokeIndexes) {
     "selected"
   );
   root.innerHTML =
-    '<img alt="loading" class="w-full h-full" src="public/loading.gif">';
+    '<img alt="loading" class="w-full h-full" src="loading.gif">';
   let res;
   try {
     res = await getJoke(ids, jokeType, jokeSort);
@@ -468,22 +453,15 @@ async function renderCard(ids = jokeIndexes) {
                         <h3 class="h-4/6 overflow-hidden text-ellipsis">${cardData.name}</h3>
                         <p>likes: ${cardData.likes}</p>
                     </header>
-                    <div class="h-3/5 text-ellipsis overflow-hidden">
+                    <div class="h-4/5 mt-2 text-ellipsis overflow-hidden">
                         <p>${cardData.body}</p>
                     </div>
-                    <div class="h-1/5 flex mt-3">
-                        <button class="flex items-center px-3 justify-start basis-4/5 main__card__button mr-2 rounded-lg main__card__detail_btn">
+                    <div class="h-1/6 flex mt-3">
+                        <button class="flex items-center px-3 justify-start h-full  main__card__button mr-2 rounded-lg w-3/5 main__card__detail_btn">
                             Detail
                         </button>
-                        <button class="basis-1/5 main__card__button rounded-lg flex justify-center items-center like_btn">
-                            <svg fill="#000000" height="90%" width="90%"
-                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                 viewBox="0 0 471.701 471.701" xml:space="preserve">
-                        <g>
-                            <path d="M433.601,67.001c-24.7-24.7-57.4-38.2-92.3-38.2s-67.7,13.6-92.4,38.3l-12.9,12.9l-13.1-13.1   c-24.7-24.7-57.6-38.4-92.5-38.4c-34.8,0-67.6,13.6-92.2,38.2c-24.7,24.7-38.3,57.5-38.2,92.4c0,34.9,13.7,67.6,38.4,92.3   l187.8,187.8c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-3.9l188.2-187.5c24.7-24.7,38.3-57.5,38.3-92.4   C471.801,124.501,458.301,91.701,433.601,67.001z M414.401,232.701l-178.7,178l-178.3-178.3c-19.6-19.6-30.4-45.6-30.4-73.3   s10.7-53.7,30.3-73.2c19.5-19.5,45.5-30.3,73.1-30.3c27.7,0,53.8,10.8,73.4,30.4l22.6,22.6c5.3,5.3,13.8,5.3,19.1,0l22.4-22.4   c19.6-19.6,45.7-30.4,73.3-30.4c27.6,0,53.6,10.8,73.2,30.3c19.6,19.6,30.3,45.6,30.3,73.3   C444.801,187.101,434.001,213.101,414.401,232.701z"/>
-                        </g>
-                                <rect class="btn__svg" x="0" y="0" width="10" height="10"  />
-                        </svg>
+                        <button class="main__card__button w-2/5 h-full rounded-lg flex justify-center items-center like_btn">
+                          <span class="icon-[iconamoon--like] w-[90%] h-[90%]"></span>
                         </button>
                     </div>
                 </div>
