@@ -1,8 +1,12 @@
 {
-  "name": "jokehub",
-  "private": true,
-  "version": "0.0.0",
+  "name": "jokeHub",
+  "version": "5.0",
+  "author": "Oleh Pona <lanuoleg@gmail.com>",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olehpona/jokeHUB"
+  },
   "scripts": {
     "dev": "tailwind -i src/main.css -o styles/main.css && vite",
     "build": "tailwind -i src/main.css -o styles/main.css && tsc && vite build",
