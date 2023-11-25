@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiGateway: string = "";
+const apiGateway: string = "http://localhost:3000/";
 
 export async function addJoke(data: {}) {
   return axios.post(apiGateway + "api/add", data, {
@@ -79,31 +79,35 @@ export async function logIn(
   callBackError: (data: string) => void,
   callBackSuccess: (data: { token: string }) => any
 ) {
-  if (localStorage.getItem("token")) {
-    const res = await axios.post(
-      apiGateway + "user/login",
-      {},
-      {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
+  if (/\w/.test(password) && /\w/.test(login)) {
+    if (localStorage.getItem("token")) {
+      const res = await axios.post(
+        apiGateway + "user/login",
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      if (res.data.status === "OK") {
+        await callBackSuccess(res.data);
+      } else {
+        await callBackError(res.data.status);
       }
-    );
-    if (res.data.status === "OK") {
-      await callBackSuccess(res.data);
     } else {
-      await callBackError(res.data.status);
+      const res = await axios.post(apiGateway + "user/login", {
+        email: login,
+        password: password,
+      });
+      if (res.data.status === "OK") {
+        await callBackSuccess(res.data);
+      } else {
+        await callBackError(res.data.status);
+      }
     }
   } else {
-    const res = await axios.post(apiGateway + "user/login", {
-      email: login,
-      password: password,
-    });
-    if (res.data.status === "OK") {
-      await callBackSuccess(res.data);
-    } else {
-      await callBackError(res.data.status);
-    }
+    callBackError("incorrect data")
   }
 }
 
